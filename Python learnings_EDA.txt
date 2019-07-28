@@ -1,0 +1,98 @@
+- normalisation vs standardisation
+normalisation scales the features into range 0 to 1, retaining their proportional range to each other
+x_new = (x-min(x))/(max(x)-min(x))
+
+standardisation scales the feature to have mean as 0 and std deviavtion as 1
+fit() is used to compute the parameter needed for transformation and transform() is for scaling the data to convert into standard format for the model.
+fit_tranform() is combination of two which is doing above work in efficiently.
+Since fit_transform() is already computing and transforming the training data only transformation for testing data is left,
+since parameter needed for transformation is already computed and stored only transformation() of testing data is left therefor only transform() is used instead of fit_transform()
+
+
+sns.FacetGrid(df, col="origin",  hue="car_type").map(plt.scatter, "hp", "mpg", edgecolor="w").add_legend()
+
+left or right padding in python:
+df['Year'] = df['Year'].astype(str)
+df['Year']=df.Year.str.pad(3,side= 'left',fillchar='9') # 3 is length of the string
+
+To rename a column name of dataframe:
+df2 = df2.rename(columns={0:'Car_Brand'}) # renamed column name 0 to Car_Brand
+
+To rename a record in a column of dataframe:
+df2['Car_Brand']=df2['Car_Brand'].replace({'chevroelt':'chevrolet'}) # to rename single value by single
+df2['Car_Brand']=df2['Car_Brand'].replace({'chevy':'chevrolet','toyouta':'toyota','maxda':'mazda','mercedes-benz':'mercedes'}) # replacing multiple singles in one go
+df2['Car_Brand']=df2['Car_Brand'].replace(to_replace=['vokswagen','vw'],value='volkswagen') # to rename multiple values by single 
+
+# Replace all NaN elements with 0s.
+df.fillna(0)
+
+# non-null values forward or backward.
+df.fillna(method='ffill')
+
+# Replace all NaN elements in column ‘A’, ‘B’, ‘C’, and ‘D’, with 0, 1, 2, and 3 respectively.
+values = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
+df.fillna(value=values)
+
+# Only replace the first NaN element.
+df.fillna(value=values, limit=1)
+
+# To replace a value in a column of dataframe by median of that column
+train['age'].replace(to_replace=0, value = train['age'].median(), inplace = True)
+df['Year']=df['Year'].replace(to_replace=[2001,2002,2003,2004],value='2001-04')
+
+dropping records:
+df.drop(['Cochice', 'Pima'])
+
+Drop the rows where at least one element is missing.
+df.dropna()
+
+Drop the rows where all elements are missing.
+df.dropna(how='all')
+
+Keep only the rows with at least 2 non-NA values.
+df.dropna(thresh=2)
+
+Drop rows by condition:
+df = df[df.Group != ' Total Victims']
+
+Define in which columns to look for missing values.
+df.dropna(subset=['name', 'born'])
+
+dropping records by conditional method
+df2.drop(df2[df2['Car_Brand']=='hi'].index,inplace=True)
+
+dropping column:
+df.drop('reports', axis=1)
+
+sns.distplot(df[pd.notnull(df['Auto_Theft_Coordinated/Traced'])]["Auto_Theft_Coordinated/Traced"])
+
+# to replace comma in amount and converting amount to float:
+for i in df[' gdp_for_year ($) ']:
+    df[' gdp_for_year ($) ']=float(i.replace(',',''))
+	
+# to get missing values for all columns in dataframe :
+def analysis(df):
+    report = pd.DataFrame()
+    report['Missing records'] = df.isnull().sum()
+    report['N unique value'] = df.nunique()
+    report['dtype'] = df.dtypes
+    print(report)
+	
+# to replace a particular value by median or mean or mode
+train.loc[train['age'] == 0, 'age'] = train.age.median()	
+
+# To ensure that data is splitted eqaully proportionate in train_test_split, use stratify = y.
+So y which is our target variable, gets split the data according to proportion of y in train and split.
+
+# Group by:
+df.groupby(['Group'])['Total'].sum()
+
+Plot of group by:
+df2 = pd.DataFrame(df.groupby(['Group'])['Auto_Stolen'].sum())
+plt.bar(df2.index,df2['Auto_Stolen'])
+
+# plot distplot of log transformed values of infinite:
+sns.distplot(np.log(pd.notnull(df['Total'])))
+
+# Sort values of series of dataframe
+df['Log_Total'].sort_values(ascending=False)
